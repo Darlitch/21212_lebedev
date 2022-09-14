@@ -18,7 +18,8 @@ public:
         size = array.size;
         capacity = array.capacity;
         arr = (int*) malloc(capacity * sizeof(int*));
-        operator=((Array &) array);
+        memcpy(arr, array.arr, sizeof(*arr) * capacity);
+//        operator=((Array &) array);
     }
 
     ~Array() {
@@ -33,7 +34,7 @@ public:
     }
 
     void At(size_t n) {
-        if (n > size) {
+        if (n >= size) {
             printf("There is no such element\n");
         } else {
             printf("%d\n", arr[n]);
@@ -43,7 +44,7 @@ public:
     void PushBack(int X) {
         if (size == capacity) {
             capacity *=2;
-            int * tmp = (int*)realloc(arr, capacity);
+            int* tmp = (int*) realloc(arr, capacity);
             if (!tmp) {
                 exit(1);
             }
@@ -54,19 +55,23 @@ public:
     }
 
     void Insert(int X, size_t n) {
-        if (size == capacity) {
-            capacity *=2;
-            int * tmp = (int*)realloc(arr, capacity);
-            if (!tmp) {
-                exit(1);
+        if (n >= size) {
+            printf("Wrong cell number\n");
+        } else {
+            if (size == capacity) {
+                capacity *=2;
+                int * tmp = (int*)realloc(arr, capacity);
+                if (!tmp) {
+                    exit(1);
+                }
+                arr = tmp;
             }
-            arr = tmp;
+            for (size_t i = size; i > n; --i ) {
+                arr[i] = arr[i - 1];
+            }
+            arr[n] = X;
+            size++;
         }
-        for (size_t i = size; i > n; --i ) {
-            arr[i] = arr[i - 1];
-        }
-        arr[n] = X;
-        size++;
     }
 
     void Print() {
@@ -118,6 +123,5 @@ int main() {
         a.Print();
     }
     Array b = a;
-    a.Print();
     b.Print();
 }
