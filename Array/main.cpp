@@ -6,18 +6,18 @@ class Array {
 public:
     Array() {
         capacity = 10;
-        arr = (int*) malloc(capacity * sizeof(int*));
+        arr = (int*) malloc(capacity * sizeof(int));
     }
 
     Array(size_t initialCapacity) {
         capacity = initialCapacity;
-        arr = (int*) malloc(capacity * sizeof(int*));
+        arr = (int*) malloc(capacity * sizeof(int));
     }
 
     Array(Array const &array) {
         size = array.size;
         capacity = array.capacity;
-        arr = (int*) malloc(capacity * sizeof(int*));
+        arr = (int*) malloc(capacity * sizeof(int));
         memcpy(arr, array.arr, sizeof(*arr) * capacity);
 //        operator=((Array &) array);
     }
@@ -27,6 +27,9 @@ public:
     }
 
     Array operator= (Array& array) {
+        size = array.size;
+        capacity = array.capacity;
+        arr = (int*) malloc(capacity * sizeof(int));
         if (this != &array) {
             memcpy(arr, array.arr, sizeof(*arr) * capacity);
         }
@@ -44,7 +47,7 @@ public:
     void PushBack(int X) {
         if (size == capacity) {
             capacity *=2;
-            int* tmp = (int*) realloc(arr, capacity);
+            int* tmp = (int*) realloc(arr, capacity * sizeof(int));
             if (!tmp) {
                 exit(1);
             }
@@ -60,7 +63,7 @@ public:
         } else {
             if (size == capacity) {
                 capacity *=2;
-                int * tmp = (int*)realloc(arr, capacity);
+                int* tmp = (int*)realloc(arr, capacity * sizeof(int));
                 if (!tmp) {
                     exit(1);
                 }
