@@ -56,4 +56,5 @@ public:
     friend bool operator!=(const HashTable& a, const HashTable& b);
 private:
     std::list <TValue>* chain;
- };
+    int sizeOfList = 1000;
+};
