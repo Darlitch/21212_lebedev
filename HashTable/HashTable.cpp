@@ -40,35 +40,33 @@ HashTable& HashTable::operator=(const HashTable& b) {
     return *this;
 }
 
-    // // Очищает контейнер.
 void HashTable::Clear() {
     for (int i = 0; i < sizeOfArray; i++) {
         chain[i].clear();
     }
-
 }
     // // Удаляет элемент по заданному ключу.
 bool HashTable::Erase(const Key& k) {
-    int sum = 0, p = 7;
-    for (int i = 0; i < k.length(); ++i) {
-        sum += (int)k[i] * p;
-        p *= 7;
-    }
-    int hash = (11 * sum + 7) % sizeOfArray;
+    int hash = Hashing(k);
+    //доделать сам пробег и удаление
 }
     // // Вставка в контейнер. Возвращаемое значение - успешность вставки.
-bool HashTable::Insert(const Key& k, const Value& v) {
+int HashTable::Hashing(const Key& k) {
     int sum = 0, p = 7;
     for (int i = 0; i < k.length(); ++i) {
         sum += (int)k[i] * p;
         p *= 7;
     }
     int hash = (11 * sum + 7) % sizeOfArray;
+    return hash;
+}
+
+bool HashTable::Insert(const Key& k, const Value& v) {
+    int hash = Hashing(k);
+    if (Contains(k) == true) {
+        return false;
+    }
     chain[hash].push_back(v);
-    // std::list <TValue>* temp(std::move(&chain[hash]));
-    // while (std::next(temp, 1) != nullptr) {
-    //     temp = std::next(temp, 1);
-    // }
 
     //доделать увеличение массива
     return true;
@@ -76,12 +74,7 @@ bool HashTable::Insert(const Key& k, const Value& v) {
 
     // // Проверка наличия значения по заданному ключу.
 bool HashTable::Contains(const Key& k) const {
-    int sum = 0, p = 7;
-    for (int i = 0; i < k.length(); ++i) {
-        sum += (int)k[i] * p;
-        p *= 7;
-    }
-    int hash = (11 * sum + 7) % sizeOfArray;
+    int hash = Hashing(k);
     //дописать
 }
 
@@ -100,11 +93,20 @@ const Value& HashTable::At(const Key& k) const {
 }
 
 size_t HashTable::Size(const HashTable& b) const {
-
+    int size = 0;
+    for (int i = 0; i < sizeOfArray; ++i) {
+        size += chain[i].size;
+    }
+    return size;
 }
 
 bool HashTable::Empty() const {
-
+    for(int i = 0; i < sizeOfArray; ++i) {
+        if (&chain[i] != NULL) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool operator==(const HashTable& a, const HashTable& b) {
