@@ -1,7 +1,7 @@
 #include "HashTable.h"
 
 HashTable::HashTable() {
-    chain = new std::list <TValue> (sizeOfArray);    
+    chain = new std::list <TValue> [sizeOfArray];    
 }
 
 HashTable::~HashTable() {
@@ -21,8 +21,10 @@ HashTable::HashTable(HashTable&& b) {
     b.chain = nullptr;
 }
 
-    // // Подумайте, зачем нужен этот метод, при наличии стандартной функции
-    // // std::swap.
+HashTable& HashTable::Rehashing(HashTable& b) {
+
+}
+
 void HashTable::Swap(HashTable& b) {
     std::list <TValue>* temp(std::move(this->chain));
     this->chain = b.chain;
@@ -45,12 +47,18 @@ void HashTable::Clear() {
         chain[i].clear();
     }
 }
-    // // Удаляет элемент по заданному ключу.
+
 bool HashTable::Erase(const Key& k) {
     int hash = Hashing(k);
-    //доделать сам пробег и удаление
+    for (auto i = chain[hash].begin(); i != chain[hash].end(); ++i) {
+        if (i->name == k) {
+            chain[hash].erase(i);
+            return true;
+        }
+    }
+    return false;
 }
-    // // Вставка в контейнер. Возвращаемое значение - успешность вставки.
+
 int HashTable::Hashing(const Key& k) {
     int sum = 0, p = 7;
     for (int i = 0; i < k.length(); ++i) {
@@ -62,19 +70,29 @@ int HashTable::Hashing(const Key& k) {
 }
 
 bool HashTable::Insert(const Key& k, const Value& v) {
-    int hash = Hashing(k);
     if (Contains(k) == true) {
         return false;
     }
+    int hash = Hashing(k);
     chain[hash].push_back(v);
-
-    //доделать увеличение массива
+    double coef = Size(*this) / sizeOfArray;
+    if (coef > 0.7) {
+        sizeOfArray *= 2;
+        HashTable b = HashTable();
+        Rehashing(*this);
+    } // переместить
     return true;
 }
 
     // // Проверка наличия значения по заданному ключу.
-bool HashTable::Contains(const Key& k) const {
+bool HashTable::Contains(const Key& k) { // Когда функция константная, он ругается на Hashing, не могу понять почему
     int hash = Hashing(k);
+    for (auto i = chain[hash].begin(); i != chain[hash].end(); ++i) {
+        if (i->name == k) {
+            return true;
+        }
+    }
+    return false;
     //дописать
 }
 
@@ -95,23 +113,23 @@ const Value& HashTable::At(const Key& k) const {
 size_t HashTable::Size(const HashTable& b) const {
     int size = 0;
     for (int i = 0; i < sizeOfArray; ++i) {
-        size += chain[i].size;
+        size += chain[i].size();
     }
     return size;
 }
 
 bool HashTable::Empty() const {
-    for(int i = 0; i < sizeOfArray; ++i) {
-        if (&chain[i] != NULL) {
-            return false;
-        }
+    if (Size(*this) != 0) {
+        return false;
     }
     return true;
 }
 
 bool operator==(const HashTable& a, const HashTable& b) {
+    for (int i = 0; i < HashTable::sizeOfArray; ++i) {
 
+    }
 }
 bool operator!=(const HashTable& a, const HashTable& b) {
-
+    return !(a == b);
 }
