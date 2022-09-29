@@ -21,9 +21,9 @@ HashTable::HashTable(HashTable&& b) {
     b.chain = nullptr;
 }
 
-HashTable& HashTable::Rehashing(HashTable& b) {
+// HashTable& HashTable::Rehashing(HashTable& b) {
 
-}
+// }
 
 void HashTable::Swap(HashTable& b) {
     std::list <TValue>* temp(std::move(this->chain));
@@ -76,11 +76,11 @@ bool HashTable::Insert(const Key& k, const Value& v) {
     int hash = Hashing(k);
     chain[hash].push_back(v);
     double coef = Size(*this) / sizeOfArray;
-    if (coef > 0.7) {
-        sizeOfArray *= 2;
-        HashTable b = HashTable();
-        Rehashing(*this);
-    } // переместить
+    // if (coef > 0.7) {
+    //     sizeOfArray *= 2;
+    //     HashTable b = HashTable();
+    //     Rehashing(*this);
+    // } // переместить
     return true;
 }
 
@@ -93,7 +93,6 @@ bool HashTable::Contains(const Key& k) { // Когда функция конст
         }
     }
     return false;
-    //дописать
 }
 
     // // Возвращает значение по ключу. Небезопасный метод.
@@ -126,10 +125,19 @@ bool HashTable::Empty() const {
 }
 
 bool operator==(const HashTable& a, const HashTable& b) {
-    for (int i = 0; i < HashTable::sizeOfArray; ++i) {
-
+    int sizeA = a.sizeOfArray;
+    int sizeB = b.sizeOfArray;
+    if (a != b) {
+        return false;
     }
+    for (int i = 0; i < sizeA; ++i) {
+        if (a.chain[i] != b.chain[i]) {
+            return false;
+        }
+    }
+    return true;
 }
+
 bool operator!=(const HashTable& a, const HashTable& b) {
     return !(a == b);
 }

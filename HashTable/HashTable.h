@@ -24,7 +24,7 @@ public:
     // Конструктор перемещения
     HashTable(HashTable&& b);
 
-    HashTable& Rehashing(HashTable& b);
+    // HashTable& Rehashing(HashTable& b);
 
     // Обменивает значения двух хэш-таблиц.
     // Подумайте, зачем нужен этот метод, при наличии стандартной функции
@@ -58,7 +58,8 @@ public:
 
     friend bool operator==(const HashTable& a, const HashTable& b);
     friend bool operator!=(const HashTable& a, const HashTable& b);
+    // int sizeOfArray = 1000;
 private:
+    int sizeOfArray = 10000;
     std::list <TValue>* chain;
-    int sizeOfArray = 1000;
 };
