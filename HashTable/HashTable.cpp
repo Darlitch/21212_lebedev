@@ -43,7 +43,7 @@ HashTable& HashTable::operator=(const HashTable& b) {
 }
 
 void HashTable::Clear() {
-    for (int i = 0; i < sizeOfArray; i++) {
+    for (size_t i = 0; i < sizeOfArray; i++) {
         chain[i].clear();
     }
 }
@@ -69,7 +69,7 @@ int HashTable::Hashing(const Key& k) {
     return hash;
 }
 
-bool HashTable::Insert(const Key& k, const Value& v) {
+bool HashTable::Insert(const Key& k, const TValue& v) {
     if (Contains(k) == true) {
         return false;
     }
@@ -112,7 +112,7 @@ bool HashTable::Contains(const Key& k) { // Когда функция конст
 
 size_t HashTable::Size() const {
     size_t size = 0;
-    for (int i = 0; i < sizeOfArray; ++i) {
+    for (size_t i = 0; i < sizeOfArray; ++i) {
         size += chain[i].size();
     }
     return size;
@@ -131,13 +131,13 @@ bool operator==(const HashTable& a, const HashTable& b) {
     if (sizeA != sizeB) {
         return false;
     }
-    for (int i = 0; i < sizeA; ++i) {
+    for (size_t i = 0; i < sizeA; ++i) {
         size_t sizeAc = a.chain[i].size();
         size_t sizeBc = b.chain[i].size();
         if (sizeAc != sizeBc) {
             return false;
         }
-        for (int j = 0; j < sizeA; ++j) {
+        for (size_t j = 0; j < sizeA; ++j) {
             auto itA = a.chain[i].begin();
             auto itB = b.chain[i].begin();
             if (itA != itB) {
