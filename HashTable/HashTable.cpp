@@ -87,8 +87,8 @@ bool HashTable::Insert(const Key& k, const Value& v) {
     // // Проверка наличия значения по заданному ключу.
 bool HashTable::Contains(const Key& k) { // Когда функция константная, он ругается на Hashing, не могу понять почему
     int hash = Hashing(k);
-    for (auto i = chain[hash].begin(); i != chain[hash].end(); ++i) {
-        if (i->name == k) {
+    for (auto i:chain[hash]) {
+        if (i.name == k) {
             return true;
         }
     }
@@ -111,7 +111,7 @@ bool HashTable::Contains(const Key& k) { // Когда функция конст
 // }
 
 size_t HashTable::Size() const {
-    int size = 0;
+    size_t size = 0;
     for (int i = 0; i < sizeOfArray; ++i) {
         size += chain[i].size();
     }
@@ -126,14 +126,25 @@ bool HashTable::Empty() const {
 }
 
 bool operator==(const HashTable& a, const HashTable& b) {
-    int sizeA = a.sizeOfArray;
-    int sizeB = b.sizeOfArray;
+    size_t sizeA = a.sizeOfArray;
+    size_t sizeB = b.sizeOfArray;
     if (sizeA != sizeB) {
         return false;
     }
     for (int i = 0; i < sizeA; ++i) {
-        if (a.chain[i] != b.chain[i]) {
+        size_t sizeAc = a.chain[i].size();
+        size_t sizeBc = b.chain[i].size();
+        if (sizeAc != sizeBc) {
             return false;
+        }
+        for (int j = 0; j < sizeA; ++j) {
+            auto itA = a.chain[i].begin();
+            auto itB = b.chain[i].begin();
+            if (itA != itB) {
+                return false;
+            }
+            itA++;
+            itB++;
         }
     }
     return true;
