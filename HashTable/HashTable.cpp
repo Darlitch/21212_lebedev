@@ -9,9 +9,9 @@ HashTable::~HashTable() {
 }
 
 HashTable::HashTable(const HashTable& b) {
-    size_t size = Size(b);
+    size_t size = b.Size();
     chain = new std::list <TValue> (size);
-    for (int i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         chain[i] = b.chain[i];
     }
 }
@@ -35,8 +35,8 @@ HashTable& HashTable::operator=(const HashTable& b) {
     if (this == &b) {
         return *this;
     }
-    size_t size = Size(b);
-    for (int i = 0; i < size; ++i) {
+    size_t size = b.Size();
+    for (size_t i = 0; i < size; ++i) {
         chain[i] = b.chain[i];
     }
     return *this;
@@ -61,7 +61,7 @@ bool HashTable::Erase(const Key& k) {
 
 int HashTable::Hashing(const Key& k) {
     int sum = 0, p = 7;
-    for (int i = 0; i < k.length(); ++i) {
+    for (size_t i = 0; i < k.length(); ++i) {
         sum += (int)k[i] * p;
         p *= 7;
     }
@@ -75,7 +75,7 @@ bool HashTable::Insert(const Key& k, const Value& v) {
     }
     int hash = Hashing(k);
     chain[hash].push_back(v);
-    double coef = Size(*this) / sizeOfArray;
+    // double coef = Size(*this) / sizeOfArray;
     // if (coef > 0.7) {
     //     sizeOfArray *= 2;
     //     HashTable b = HashTable();
@@ -110,7 +110,7 @@ bool HashTable::Contains(const Key& k) { // Когда функция конст
 
 // }
 
-size_t HashTable::Size(const HashTable& b) const {
+size_t HashTable::Size() const {
     int size = 0;
     for (int i = 0; i < sizeOfArray; ++i) {
         size += chain[i].size();
@@ -119,7 +119,7 @@ size_t HashTable::Size(const HashTable& b) const {
 }
 
 bool HashTable::Empty() const {
-    if (Size(*this) != 0) {
+    if (Size() != 0) {
         return false;
     }
     return true;
@@ -128,7 +128,7 @@ bool HashTable::Empty() const {
 bool operator==(const HashTable& a, const HashTable& b) {
     int sizeA = a.sizeOfArray;
     int sizeB = b.sizeOfArray;
-    if (a != b) {
+    if (sizeA != sizeB) {
         return false;
     }
     for (int i = 0; i < sizeA; ++i) {

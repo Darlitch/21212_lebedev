@@ -1,6 +1,5 @@
 #include <iostream>
 #include <list>
-#include <array>
 // В этой задаче для простоты не требуется делать контейнер шаблонным,
 // это допускается по желанию. Для нешаблонного решения, 
 // введем типы ключей и значений: ключом будет выступать строка (например, имя
@@ -9,9 +8,10 @@
 typedef std::string Key;
 
 typedef struct Value {
-    Key name;
-    unsigned age;
-    unsigned weight;
+    Key name = Key();
+    unsigned age = 0;
+    unsigned weight = 0;
+    friend bool operator==(const TValue& a, const TValue& b);
 }TValue;
 
 class HashTable {
@@ -53,7 +53,7 @@ public:
     Value& At(const Key& k);
     const Value& At(const Key& k) const;
 
-    size_t Size(const HashTable& b) const;
+    size_t Size() const;
     bool Empty() const;
 
     friend bool operator==(const HashTable& a, const HashTable& b);
