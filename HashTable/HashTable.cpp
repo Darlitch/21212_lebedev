@@ -98,16 +98,17 @@ bool HashTable::Contains(const Key& k) { // Когда функция конст
     // // Возвращает значение по ключу. Небезопасный метод.
     // // В случае отсутствия ключа в контейнере, следует вставить в контейнер
     // // значение, созданное конструктором по умолчанию и вернуть ссылку на него. 
-Value& HashTable::operator[](const Key& k) {
+// Value& HashTable::operator[](const Key& k) {
 
-}
+// }
 
-Value& HashTable::At(const Key& k) {
+// Value& HashTable::At(const Key& k) {
 
-}
-const Value& HashTable::At(const Key& k) const {
+// }
 
-}
+// const Value& HashTable::At(const Key& k) const {
+
+// }
 
 size_t HashTable::Size(const HashTable& b) const {
     int size = 0;
