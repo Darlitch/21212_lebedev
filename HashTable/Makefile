@@ -1,7 +1,7 @@
 Flags := -Wall -Wextra -Werror
 
 HashTable: HashTable.o TValue.o main.o
-	g++ HashTable.o TValue.o main.o -o HashTable
+	g++ -lgtest -lgtest_main -lpthread HashTable.o TValue.o main.o -o HashTable
 
 HashTable.o: HashTable.cpp
 	g++ $(Flags) -c HashTable.cpp

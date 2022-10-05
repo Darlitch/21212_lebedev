@@ -80,17 +80,10 @@ bool HashTable::Insert(const Key& k, const TValue& v) {
     }
     int hash = Hashing(k);
     chain[hash].push_back(v);
-    // double coef = Size(*this) / sizeOfArray;
-    // if (coef > 0.7) {
-    //     sizeOfArray *= 2;
-    //     HashTable b = HashTable();
-    //     Rehashing(*this);
-    // } // переместить
     return true;
 }
 
-    // // Проверка наличия значения по заданному ключу.
-bool HashTable::Contains(const Key& k) const { // Когда функция константная, он ругается на Hashing, не могу понять почему
+bool HashTable::Contains(const Key& k) const {
     int hash = Hashing(k);
     for (auto i : chain[hash]) {
         if (i.name == k) {
@@ -100,9 +93,6 @@ bool HashTable::Contains(const Key& k) const { // Когда функция ко
     return false;
 }
 
-    // // Возвращает значение по ключу. Небезопасный метод.
-    // // В случае отсутствия ключа в контейнере, следует вставить в контейнер
-    // // значение, созданное конструктором по умолчанию и вернуть ссылку на него. 
 TValue& HashTable::operator[](const Key& k) {
     if (Contains(k)) {
         return At(k);
@@ -115,37 +105,27 @@ TValue& HashTable::operator[](const Key& k) {
 
 TValue& HashTable::At(const Key& k) {
     if (Contains(k)) {
-        throw std::invalid_argument("There is no such element");
-    }
-    int hash = Hashing(k);
-    for (auto i : chain[hash]) {
-        if (i.name == k) {
-            return i;
+        int hash = Hashing(k);
+        for (auto& i : chain[hash]) {
+            if (i.name == k) {
+                return i;
+            }
         }
     }
+    throw std::invalid_argument("There is no such element");
 }
 
 const TValue& HashTable::At(const Key& k) const {
     if (Contains(k)) {
-        throw std::invalid_argument("There is no such element");
-    }
-    int hash = Hashing(k);
-    for (auto i : chain[hash]) {
-        if (i.name == k) {
-            return i;
+        int hash = Hashing(k);
+        for (auto& i : chain[hash]) {
+            if (i.name == k) {
+                return i;
+            }
         }
     }
+    throw std::invalid_argument("There is no such element");
 }
-
-// int main() {
-//     HashTable h;
-//     h["test"] = {};
-//     h.at("test");
-
-//     const HashTable h2;
-//     h2.at();
-
-// }
 
 size_t HashTable::Size() const {
     size_t size = 0;
@@ -156,7 +136,7 @@ size_t HashTable::Size() const {
 }
 
 bool HashTable::Empty() const {
-    return (Size() != 0); // доделать
+    return (Size() == 0);
 }
 
 bool operator==(const HashTable& a, const HashTable& b) {

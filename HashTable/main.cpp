@@ -3,7 +3,7 @@
 
 TEST(EmptyInvariant, temp) {
     HashTable hashTable;
-    EXPECT_TRUE(HashTable.Empty());
+    EXPECT_TRUE(hashTable.Empty());
 }
 
 int main(int argc, char** argv) {
