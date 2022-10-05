@@ -1,6 +1,10 @@
-#include <iostream>
+#ifndef HASH_TABLE_H
+#define HASH_TABLE_H
+
 #include <list>
+
 #include "TValue.h"
+
 // В этой задаче для простоты не требуется делать контейнер шаблонным,
 // это допускается по желанию. Для нешаблонного решения, 
 // введем типы ключей и значений: ключом будет выступать строка (например, имя
@@ -32,11 +36,11 @@ public:
     // Удаляет элемент по заданному ключу.
     bool Erase(const Key& k);
     // Вставка в контейнер. Возвращаемое значение - успешность вставки.
-    int Hashing(const Key& k);
+    int Hashing(const Key& k) const;
     bool Insert(const Key& k, const TValue& v);
 
     // Проверка наличия значения по заданному ключу.
-    bool Contains(const Key& k);
+    bool Contains(const Key& k) const;
 
     // Возвращает значение по ключу. Небезопасный метод.
     // В случае отсутствия ключа в контейнере, следует вставить в контейнер
@@ -53,7 +57,10 @@ public:
     friend bool operator==(const HashTable& a, const HashTable& b);
     friend bool operator!=(const HashTable& a, const HashTable& b);
     // int sizeOfArray = 1000;
+
 private:
     size_t sizeOfArray = 10000;
     std::list <TValue>* chain;
 };
+
+#endif

@@ -1,4 +1,20 @@
+#include <algorithm>
+
 #include "HashTable.h"
+
+namespace {
+
+int CalcHash(const Key& k) {
+    size_t sum = 0, p = 7;
+    for (size_t i = 0; i < k.length(); ++i) {
+        sum += (size_t)k[i] * p;
+        p *= 7;
+    }
+    size_t hash = (11 * sum + 7);
+    return hash;
+}
+
+}
 
 HashTable::HashTable() {
     chain = new std::list <TValue> [sizeOfArray];    
@@ -8,12 +24,9 @@ HashTable::~HashTable() {
     delete[] chain;
 }
 
-HashTable::HashTable(const HashTable& b) {
-    size_t size = b.Size();
-    chain = new std::list <TValue> (size);
-    for (size_t i = 0; i < size; ++i) {
-        chain[i] = b.chain[i];
-    }
+HashTable::HashTable(const HashTable& b) : sizeOfArray{b.sizeOfArray} {
+    chain = new std::list <TValue> (sizeOfArray);
+    std::copy(b.chain, b.chain + sizeOfArray,chain);
 }
 
 HashTable::HashTable(HashTable&& b) {
@@ -35,10 +48,8 @@ HashTable& HashTable::operator=(const HashTable& b) {
     if (this == &b) {
         return *this;
     }
-    size_t size = b.Size();
-    for (size_t i = 0; i < size; ++i) {
-        chain[i] = b.chain[i];
-    }
+    sizeOfArray = b.sizeOfArray;
+    std::copy(b.chain, b.chain + sizeOfArray,chain);
     return *this;
 }
 
@@ -59,14 +70,8 @@ bool HashTable::Erase(const Key& k) {
     return false;
 }
 
-int HashTable::Hashing(const Key& k) {
-    int sum = 0, p = 7;
-    for (size_t i = 0; i < k.length(); ++i) {
-        sum += (int)k[i] * p;
-        p *= 7;
-    }
-    int hash = (11 * sum + 7) % sizeOfArray;
-    return hash;
+int HashTable::Hashing(const Key& k) const {
+    return CalcHash(k) % sizeOfArray;
 }
 
 bool HashTable::Insert(const Key& k, const TValue& v) {
@@ -85,9 +90,9 @@ bool HashTable::Insert(const Key& k, const TValue& v) {
 }
 
     // // Проверка наличия значения по заданному ключу.
-bool HashTable::Contains(const Key& k) { // Когда функция константная, он ругается на Hashing, не могу понять почему
+bool HashTable::Contains(const Key& k) const { // Когда функция константная, он ругается на Hashing, не могу понять почему
     int hash = Hashing(k);
-    for (auto i:chain[hash]) {
+    for (auto i : chain[hash]) {
         if (i.name == k) {
             return true;
         }
@@ -98,15 +103,47 @@ bool HashTable::Contains(const Key& k) { // Когда функция конст
     // // Возвращает значение по ключу. Небезопасный метод.
     // // В случае отсутствия ключа в контейнере, следует вставить в контейнер
     // // значение, созданное конструктором по умолчанию и вернуть ссылку на него. 
-// Value& HashTable::operator[](const Key& k) {
+TValue& HashTable::operator[](const Key& k) {
+    if (Contains(k)) {
+        return At(k);
+    }
+    TValue v;
+    v.name = k;
+    Insert(k,v);
+    return At(k);
+}
 
-// }
+TValue& HashTable::At(const Key& k) {
+    if (Contains(k)) {
+        throw std::invalid_argument("There is no such element");
+    }
+    int hash = Hashing(k);
+    for (auto i : chain[hash]) {
+        if (i.name == k) {
+            return i;
+        }
+    }
+}
 
-// Value& HashTable::At(const Key& k) {
+const TValue& HashTable::At(const Key& k) const {
+    if (Contains(k)) {
+        throw std::invalid_argument("There is no such element");
+    }
+    int hash = Hashing(k);
+    for (auto i : chain[hash]) {
+        if (i.name == k) {
+            return i;
+        }
+    }
+}
 
-// }
+// int main() {
+//     HashTable h;
+//     h["test"] = {};
+//     h.at("test");
 
-// const Value& HashTable::At(const Key& k) const {
+//     const HashTable h2;
+//     h2.at();
 
 // }
 
@@ -119,10 +156,7 @@ size_t HashTable::Size() const {
 }
 
 bool HashTable::Empty() const {
-    if (Size() != 0) {
-        return false;
-    }
-    return true;
+    return (Size() != 0); // доделать
 }
 
 bool operator==(const HashTable& a, const HashTable& b) {

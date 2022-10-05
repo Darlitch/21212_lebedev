@@ -1,6 +1,6 @@
 Flags := -Wall -Wextra -Werror
 
-HashTable: HashTable.o TValue.o
+HashTable: HashTable.o TValue.o main.o
 	g++ HashTable.o TValue.o main.o -o HashTable
 
 HashTable.o: HashTable.cpp

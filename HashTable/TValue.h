@@ -1,3 +1,6 @@
+#ifndef TVALUE_H
+#define TVALUE_H
+
 #include <iostream>
 
 typedef std::string Key;
@@ -9,3 +12,5 @@ struct TValue {
     friend bool operator==(const TValue& a, const TValue& b);
     friend bool operator!=(const TValue& a, const TValue& b);
 };
+
+#endif
