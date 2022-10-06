@@ -57,7 +57,6 @@ public:
 
     friend bool operator==(const HashTable& a, const HashTable& b);
     friend bool operator!=(const HashTable& a, const HashTable& b);
-    // int sizeOfArray = 1000;
 
 private:
     size_t sizeOfArray = 10000;
