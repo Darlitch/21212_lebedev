@@ -24,14 +24,15 @@ HashTable::~HashTable() {
     delete[] chain;
 }
 
-HashTable::HashTable(const HashTable& b) : sizeOfArray{b.sizeOfArray} {
-    chain = new std::list <TValue> (sizeOfArray);
-    std::copy(b.chain, b.chain + sizeOfArray,chain);
+HashTable::HashTable(const HashTable& b) : sizeOfArray(b.sizeOfArray) {
+    chain = new std::list <TValue> [sizeOfArray];
+    std::copy(b.chain, b.chain + sizeOfArray, chain);
 }
 
-HashTable::HashTable(HashTable&& b) {
-    this->chain = b.chain;
+HashTable::HashTable(HashTable&& b) : sizeOfArray(b.sizeOfArray) {
+    chain = b.chain;
     b.chain = nullptr;
+    b.sizeOfArray = 0;
 }
 
 // HashTable& HashTable::Rehashing(HashTable& b) {
@@ -39,9 +40,9 @@ HashTable::HashTable(HashTable&& b) {
 // }
 
 void HashTable::Swap(HashTable& b) {
-    std::list <TValue>* temp(std::move(this->chain));
-    this->chain = b.chain;
-    b.chain = temp;
+    HashTable temp = std::move(*this);
+    *this = std::move(b);
+    b = std::move(temp);
 }
 
 HashTable& HashTable::operator=(const HashTable& b) {
@@ -50,6 +51,17 @@ HashTable& HashTable::operator=(const HashTable& b) {
     }
     sizeOfArray = b.sizeOfArray;
     std::copy(b.chain, b.chain + sizeOfArray,chain);
+    return *this;
+}
+
+HashTable& HashTable::operator=(HashTable&& b) {
+    if (this == &b) {
+        return *this;
+    }
+    sizeOfArray = b.sizeOfArray;
+    chain = b.chain;
+    b.chain = nullptr;
+    b.sizeOfArray = 0;
     return *this;
 }
 

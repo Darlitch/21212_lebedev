@@ -30,6 +30,7 @@ public:
     void Swap(HashTable& b);
 
     HashTable& operator=(const HashTable& b);
+    HashTable& operator=(HashTable&& b);
 
     // Очищает контейнер.
     void Clear();
