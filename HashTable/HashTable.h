@@ -37,7 +37,7 @@ public:
     // Удаляет элемент по заданному ключу.
     bool Erase(const Key& k);
     // Вставка в контейнер. Возвращаемое значение - успешность вставки.
-    int Hashing(const Key& k) const;
+    size_t Hashing(const Key& k) const;
     bool Insert(const Key& k, const TValue& v);
 
     // Проверка наличия значения по заданному ключу.
@@ -59,6 +59,7 @@ public:
     friend bool operator!=(const HashTable& a, const HashTable& b);
 
 private:
+    // size_t size = 0;
     size_t sizeOfArray = 10000;
     std::list <TValue>* chain;
 };

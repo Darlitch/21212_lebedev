@@ -4,7 +4,7 @@
 
 namespace {
 
-int CalcHash(const Key& k) {
+size_t CalcHash(const Key& k) {
     size_t sum = 0, p = 7;
     for (size_t i = 0; i < k.length(); ++i) {
         sum += (size_t)k[i] * p;
@@ -49,6 +49,7 @@ HashTable& HashTable::operator=(const HashTable& b) {
     if (this == &b) {
         return *this;
     }
+    //???
     sizeOfArray = b.sizeOfArray;
     std::copy(b.chain, b.chain + sizeOfArray,chain);
     return *this;
@@ -72,7 +73,7 @@ void HashTable::Clear() {
 }
 
 bool HashTable::Erase(const Key& k) {
-    int hash = Hashing(k);
+    size_t hash = Hashing(k);
     for (auto i = chain[hash].begin(); i != chain[hash].end(); ++i) {
         if (i->name == k) {
             chain[hash].erase(i);
@@ -82,7 +83,7 @@ bool HashTable::Erase(const Key& k) {
     return false;
 }
 
-int HashTable::Hashing(const Key& k) const {
+size_t HashTable::Hashing(const Key& k) const {
     return CalcHash(k) % sizeOfArray;
 }
 
@@ -90,13 +91,13 @@ bool HashTable::Insert(const Key& k, const TValue& v) {
     if (Contains(k) == true) {
         return false;
     }
-    int hash = Hashing(k);
+    size_t hash = Hashing(k);
     chain[hash].push_back(v);
     return true;
 }
 
 bool HashTable::Contains(const Key& k) const {
-    int hash = Hashing(k);
+    size_t hash = Hashing(k);
     for (auto i : chain[hash]) {
         if (i.name == k) {
             return true;
@@ -117,7 +118,7 @@ TValue& HashTable::operator[](const Key& k) {
 
 TValue& HashTable::At(const Key& k) {
     if (Contains(k)) {
-        int hash = Hashing(k);
+        size_t hash = Hashing(k);
         for (auto& i : chain[hash]) {
             if (i.name == k) {
                 return i;
@@ -129,7 +130,7 @@ TValue& HashTable::At(const Key& k) {
 
 const TValue& HashTable::At(const Key& k) const {
     if (Contains(k)) {
-        int hash = Hashing(k);
+        size_t hash = Hashing(k);
         for (auto& i : chain[hash]) {
             if (i.name == k) {
                 return i;
@@ -140,6 +141,7 @@ const TValue& HashTable::At(const Key& k) const {
 }
 
 size_t HashTable::Size() const {
+    //????????????????? cache
     size_t size = 0;
     for (size_t i = 0; i < sizeOfArray; ++i) {
         size += chain[i].size();
@@ -158,19 +160,11 @@ bool operator==(const HashTable& a, const HashTable& b) {
         return false;
     }
     for (size_t i = 0; i < sizeA; ++i) {
-        size_t sizeAc = a.chain[i].size();
-        size_t sizeBc = b.chain[i].size();
-        if (sizeAc != sizeBc) {
+        if (a.chain[i].size() != b.chain[i].size()) {
             return false;
         }
-        for (size_t j = 0; j < sizeA; ++j) {
-            auto itA = a.chain[i].begin();
-            auto itB = b.chain[i].begin();
-            if (itA != itB) {
-                return false;
-            }
-            itA++;
-            itB++;
+        if (a.chain[i] != b.chain[i]) {
+            return false;
         }
     }
     return true;

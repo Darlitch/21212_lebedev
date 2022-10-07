@@ -124,12 +124,12 @@ TEST(Operators, OperatorCompare) {
     v.weight = 15;
     a.Insert("aboba", v);
     HashTable b;
-    // b = a;
-    // EXPECT_TRUE(a == b);
+    b = a;
+    EXPECT_TRUE(a == b);
     b.Clear();
     EXPECT_TRUE(a != b);
-    // b.Insert("aboba", v);
-    // EXPECT_TRUE(a == b);
+    b.Insert("aboba", v);
+    EXPECT_TRUE(a == b);
 }
 
 TEST(Operators, OperatorInd) {
