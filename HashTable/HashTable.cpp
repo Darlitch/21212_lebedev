@@ -20,6 +20,10 @@ HashTable::HashTable() {
     chain = new std::list <TValue> [sizeOfArray];    
 }
 
+HashTable::HashTable(size_t lastSizeOA) : sizeOfArray(lastSizeOA) {
+    chain = new std::list <TValue> [sizeOfArray];    
+}
+
 HashTable::~HashTable() {
     delete[] chain;
 }
@@ -35,9 +39,16 @@ HashTable::HashTable(HashTable&& b) : sizeOfArray(b.sizeOfArray) {
     b.sizeOfArray = 0;
 }
 
-// HashTable& HashTable::Rehashing(HashTable& b) {
-
-// }
+HashTable& HashTable::Rehashing() {
+    HashTable b(sizeOfArray * 2);
+    for (size_t i = 0; i < sizeOfArray; ++i) {
+        for (auto i: chain[i]) {
+            b.Insert(i.name, i);
+        }
+    }
+    b.Swap(*this);
+    return *this;
+}
 
 void HashTable::Swap(HashTable& b) {
     HashTable temp = std::move(*this);

@@ -15,6 +15,7 @@ typedef std::string Key;
 class HashTable {
 public:
     HashTable();
+    HashTable(size_t lastSizeOA);
     ~HashTable();
 
     // конструктор копирования
@@ -22,7 +23,7 @@ public:
     // Конструктор перемещения
     HashTable(HashTable&& b);
 
-    // HashTable& Rehashing(HashTable& b);
+    HashTable& Rehashing();
 
     // Обменивает значения двух хэш-таблиц.
     // Подумайте, зачем нужен этот метод, при наличии стандартной функции
