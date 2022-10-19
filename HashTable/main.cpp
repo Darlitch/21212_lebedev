@@ -67,6 +67,7 @@ TEST(Operations, Erase) {
     EXPECT_FALSE(a.Contains("abiba"));
     EXPECT_FALSE(a.Contains("abibi"));
     EXPECT_FALSE(a.Contains("ibibi"));
+    EXPECT_FALSE(a.Erase("ibibi"));
 }
 
 TEST(Operations, Clean) {
@@ -173,6 +174,8 @@ TEST(Operators, OperatorEqual) {
     HashTable b;
     b = a;
     EXPECT_TRUE(b.Contains("aboba"));
+    b = b;
+    EXPECT_TRUE(b.Contains("aboba"));
 }
 
 TEST(Operators, OperatorCompare) {
@@ -189,6 +192,8 @@ TEST(Operators, OperatorCompare) {
     EXPECT_TRUE(a != b);
     b.Insert("aboba", v);
     EXPECT_TRUE(a == b);
+    a.Rehashing();
+    EXPECT_FALSE(a == b);
 }
 
 TEST(Operators, OperatorInd) {
@@ -214,6 +219,8 @@ TEST(Universal, MoveAndSwap) {
     b.Swap(a);
     EXPECT_TRUE(b.Contains("aboba"));
     EXPECT_FALSE(a.Contains("aboba"));
+    b.Swap(b);
+    EXPECT_TRUE(b.Contains("aboba"));
 }
 
 TEST(Universal, Rehashing) {
@@ -249,6 +256,15 @@ TEST(Universal, Rehashing) {
     b.Insert("Imposter", v);
     a = b;
     EXPECT_TRUE(a == b);
+}
+
+TEST(Universal, TValue) {
+    TValue v, n;
+    v.name = "aboba";
+    v.age = 18;
+    v.weight = 15;
+    n.name = "abiba";
+    EXPECT_TRUE(v != n);
 }
 
 int main(int argc, char** argv) {
