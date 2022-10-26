@@ -1,14 +1,9 @@
 #ifndef BLACK_JACK_H
 #define BLACK_JACK_H
 
-#include <iostream>
 #include <list>
 
-
-struct TCard {
-    size_t Value = 0;
-    size_t Count = 0;
-};
+#include "StratFactory.h"
 
 class BlackJack {
     public:
