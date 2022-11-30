@@ -5,17 +5,15 @@
 
 #include "Strategy.h"
 
-typedef std::string Key;
-
 class StratFactory {
 public:
     StratFactory();
     // Добавляет в map стратегию
-    void RegisterStrat(const Key&, Bot* (*)());
+    void RegisterStrat(const std::string&, Bot* (*)());
     // Обращается в map для создания стратегии
-    Bot* CreateStrat(const Key& key);
+    Bot* CreateStrat(const std::string& key);
 private:
-    std::map <Key, Bot* (*)()> Strats;
+    std::map <std::string, Bot* (*)()> Strats;
 };
 
 #endif
