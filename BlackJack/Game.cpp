@@ -1,5 +1,7 @@
 #include <iostream>
 #include <limits>
+#include <cstring>
+#include <algorithm>
 
 #include "BlackJack.h"
 
@@ -18,7 +20,7 @@ namespace {
         return numOfDeck;
     }
 
-    int Menu() {
+    size_t MenuDeck() {
         int m = 0, menuDeck = 0;
         std::cout << "Select card issuance:\n1. Simplified mode: random number from 1 to 10.\n2. Decks" << std::endl;
         while (m != 1 && m != 2) {
@@ -41,9 +43,60 @@ namespace {
         }
         return menuDeck;
     }
+
+    void MenuDetails(int argc, char* argv[], std::vector<std::string>& strats) {
+
+        for (int i = 1; i < argc; ++i) {
+            std::string currArgv(argv[i]);
+            if (currArgv.find("--mode=") != std::string::npos) {
+                strats[0].clear();
+                strats[0].append(argv[i]+7);  
+            } else if (currArgv.find("--configs=") != std::string::npos) {
+                strats[1].clear();
+                strats[1].append(argv[i]+10);  
+            } else {
+                strats.push_back(argv[i]);
+            }
+        }
+    }
+
+    int CheckInput(std::vector<std::string>& strats) {
+        if ((strats[0] == "detailed" || strats[0] == "fast") && strats.size() != 4) {
+            return 1;
+        } else if (strats[0] == "tournament" && (strats.size() > 12 || strats.size() < 4)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
 
-int main() {
-    int menuDeck = Menu();
-    std::cout << menuDeck;
+int main(int argc, char* argv[]) {
+    size_t numOfPlayers = 0;
+    std::vector<std::string> strats = {"detailed", "0"};
+    MenuDetails(argc, argv, strats);
+    if (CheckInput(strats)) {
+        std::cout << "Bad arguments" << std::endl;
+        return 0;
+    }
+    numOfPlayers = strats.size()-2;
+    size_t menuDeck = MenuDeck();
+    for (size_t i = 0; i < strats.size(); ++i) {
+        std::cout << strats[i] << std::endl;
+    }
+    std::cout << menuDeck << std::endl << numOfPlayers;
+    // BlackJack game = BlackJack(numOfPlayers);   
+    // std::cout << menuDetails << " " << cfg << " " << menuDeck;
+    // switch(menuDetails) {
+    //     case 1:
+    //         game.DetailedGame();
+    //         break;
+    //     case 2:
+    //         game.FastGame();
+    //         break;
+    //     case 3:
+    //         game.TournamentGame();
+    //         break;
+    // }
+
 }

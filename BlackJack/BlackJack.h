@@ -2,6 +2,7 @@
 #define BLACK_JACK_H
 
 #include <vector>
+#include <array>
 
 #include "TCard.h"
 // #include "StratFactory.h"
@@ -11,11 +12,12 @@ class BlackJack {
     BlackJack();
     BlackJack(size_t numOfPlayers);
     ~BlackJack();
-    // int Menu();
-    // int NumOfDeck();
 
-    void SimpleGame();
-    void CardGame(int n);
+    void DetailedGame();
+    void FastGame();
+    void TournamentGame();
+
+    void DeckCreate(size_t menuDeck);
     // возвращает количество очков в руке Стратегии
     size_t GetHand(size_t num);
     // возвращает счет Стратегии в турнире
@@ -25,7 +27,7 @@ class BlackJack {
     void ClearHand(size_t num);
 
     private:
-    std::vector<size_t> deck;
+    std::array<size_t, 10> deck;
     std::vector<size_t> score;
     std::vector<size_t> hand;
     // TCard card;
