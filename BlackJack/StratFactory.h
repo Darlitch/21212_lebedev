@@ -1,5 +1,5 @@
-#ifndef FACTORY_H
-#define FACTORY_H
+#ifndef STRAT_FACTORY_H
+#define STRAT_FACTORY_H
 
 #include <map>
 
@@ -8,12 +8,15 @@
 class StratFactory {
 public:
     StratFactory();
+    ~virtual StratFactory();
+    template <class Strat>
     // Добавляет в map стратегию
-    void RegisterStrat(const std::string&, Bot* (*)());
+    void RegisterStrat(const std::string& key);
     // Обращается в map для создания стратегии
-    Bot* CreateStrat(const std::string& key);
+    Strat* CreateStrat(const std::string& key);
 private:
-    std::map <std::string, Bot* (*)()> Strats;
+    typedef std::map <std::string, AbstractStrategy<Strat>*> FactoryMap;
+    FactoryMap stratFactory;
 };
 
 #endif

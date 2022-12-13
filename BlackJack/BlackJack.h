@@ -13,7 +13,7 @@ class BlackJack {
     BlackJack(size_t numOfPlayers);
     ~BlackJack();
 
-    void DetailedGame();
+    void DetailedGame(std::vector<std::string> strats);
     void FastGame();
     void TournamentGame();
 

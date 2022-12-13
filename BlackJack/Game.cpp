@@ -81,22 +81,18 @@ int main(int argc, char* argv[]) {
     }
     numOfPlayers = strats.size()-2;
     size_t menuDeck = MenuDeck();
-    for (size_t i = 0; i < strats.size(); ++i) {
-        std::cout << strats[i] << std::endl;
-    }
-    std::cout << menuDeck << std::endl << numOfPlayers;
-    // BlackJack game = BlackJack(numOfPlayers);   
-    // std::cout << menuDetails << " " << cfg << " " << menuDeck;
-    // switch(menuDetails) {
-    //     case 1:
-    //         game.DetailedGame();
-    //         break;
-    //     case 2:
-    //         game.FastGame();
-    //         break;
-    //     case 3:
-    //         game.TournamentGame();
-    //         break;
+    // for (size_t i = 0; i < strats.size(); ++i) {
+    //     std::cout << strats[i] << std::endl;
     // }
-
+    // std::cout << menuDeck << std::endl << numOfPlayers;
+    BlackJack game = BlackJack(numOfPlayers);  
+    game.DeckCreate(menuDeck); 
+    if (strats[0] == "detailed") {
+        game.DetailedGame(strats);
+    } else if (strats[0] == "fast") {
+        game.FastGame();
+    } else {
+        game.TournamentGame();
+    }
+    return 0;
 }

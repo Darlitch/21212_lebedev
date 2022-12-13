@@ -3,15 +3,17 @@
 
 #include <string>
 
-class Strategy {
+class AbstractStrategy {
 public:
     // конструктор
-    Strategy(std::string key);
-    virtual int StratChoise(Strategy& opponent);
+    // AbstractStrategy(std::string key);
+    // virtual int StratChoise(AbstractStrategy& opponent);
+    virtual stratCreator() {}
+    virtual Strat* create() const = 0;
 
     // принимаем файл, считываем его, идем по нему
     // принимаем действие: пасовать, брать карту
-    std::string key;
+    // std::string key;
 private:
 };
 

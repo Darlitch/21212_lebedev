@@ -15,19 +15,22 @@ BlackJack::BlackJack(size_t numOfPlayers) {
 BlackJack::~BlackJack() {
 }
 
-void BlackJack::DetailedGame() {
+void BlackJack::DetailedGame(std::vector<std::string> strats) {
     
 }
 
-// void BlackJack::DeckCreate(size_t menuDeck) {
-//     if (menuDeck == 0) {
-//         for (auto& i: deck) {
-//             i = 1000;
-//         }
-//     } else {
-
-//     }
-// }
+void BlackJack::DeckCreate(size_t numOfDecks) {
+    if (numOfDecks == 0) {
+        for (auto& i: deck) {
+            deck[i] = 1000;
+        }
+    } else {
+        for (int i = 0; i < 8; ++i) {
+            deck[i] = 4 * numOfDecks;
+        }
+        deck[9] = 16 * numOfDecks;
+    }
+}
 
 size_t BlackJack::GetHand(size_t num) {
     return hand.at(num);
