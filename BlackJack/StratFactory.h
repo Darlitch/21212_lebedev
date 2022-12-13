@@ -7,8 +7,8 @@
 
 class StratFactory {
 public:
-    StratFactory();
-    ~virtual StratFactory();
+    StratFactory() {}
+    virtual ~StratFactory();
     template <class Strat>
     // Добавляет в map стратегию
     void RegisterStrat(const std::string& key);
