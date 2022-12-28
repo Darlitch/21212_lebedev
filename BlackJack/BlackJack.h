@@ -9,9 +9,10 @@
 
 class BlackJack {
     public:
-    BlackJack();
+    BlackJack() {}
     BlackJack(size_t numOfPlayers);
     ~BlackJack();
+    BlackJack& operator=(BlackJack&) = delete;
 
     void DetailedGame(std::vector<std::string> strats);
     void FastGame();
@@ -30,6 +31,8 @@ class BlackJack {
     std::array<size_t, 10> deck;
     std::vector<size_t> score;
     std::vector<size_t> hand;
+
+    StratFactory<AbstractStrategy*> stratFact;
     // TCard card;
     // for (size_t i = 0; i < 10; ++i) {
 

@@ -5,17 +5,30 @@
 
 #include "Strategy.h"
 
+template <class Strat>
 class StratFactory {
 public:
     StratFactory() {}
-    virtual ~StratFactory();
-    template <class Strat>
+    ~StratFactory();
+    StratFactory(StratFactory&) = delete;
+    StratFactory& operator=(StratFactory&) = delete;
     // Добавляет в map стратегию
-    void RegisterStrat(const std::string& key);
+    void RegisterStrat(const std::string& key, Strat (*Func)()) {
+        typename FactoryMap::iterator it = stratFactory.find(key);
+        if (it == stratFactory.end()) {
+            stratFactory[key] = Func;
+        }
+    }
     // Обращается в map для создания стратегии
-    Strat* CreateStrat(const std::string& key);
+    Strat CreateStrat(const std::string& key) {
+        typename FactoryMap::iterator it = stratFactory.find(key);
+        if (it != stratFactory.end()) {
+            return it->second();
+        }
+        return 0;
+    }
 private:
-    typedef std::map <std::string, AbstractStrategy<Strat>*> FactoryMap;
+    typedef std::map <std::string, Strat(*Func)()> FactoryMap;
     FactoryMap stratFactory;
 };
 

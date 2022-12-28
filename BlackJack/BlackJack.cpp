@@ -1,13 +1,13 @@
 #include <iostream>
 
 #include "BlackJack.h"
-
-BlackJack::BlackJack() {
-    score.reserve(2);
-    hand.reserve(2);
-}
+#include "StratFactory.h"
 
 BlackJack::BlackJack(size_t numOfPlayers) {
+    stratFact.RegisterStrat("Strat1", CreateStrat1);
+    stratFact.RegisterStrat("Strat2", CreateStrat2);
+    stratFact.RegisterStrat("Strat3", CreateStrat3);
+    stratFact.RegisterStrat("StratCfg", CreateStratCfg);
     score.reserve(numOfPlayers);
     hand.reserve(numOfPlayers);
 }
@@ -16,7 +16,8 @@ BlackJack::~BlackJack() {
 }
 
 void BlackJack::DetailedGame(std::vector<std::string> strats) {
-    
+    AbstractStrategy* strat1 = stratFact.CreateStrat(strats[2]);
+    AbstractStrategy* strat2 = stratFact.CreateStrat(strats[4]);
 }
 
 void BlackJack::DeckCreate(size_t numOfDecks) {

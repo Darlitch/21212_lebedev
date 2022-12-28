@@ -5,16 +5,29 @@
 
 class AbstractStrategy {
 public:
-    // конструктор
-    // AbstractStrategy(std::string key);
-    // virtual int StratChoise(AbstractStrategy& opponent);
-    virtual stratCreator() {}
-    virtual Strat* create() const = 0;
-
-    // принимаем файл, считываем его, идем по нему
-    // принимаем действие: пасовать, брать карту
-    // std::string key;
+    AbstractStrategy() {}
+    virtual ~AbstractStrategy() {}
 private:
+};
+
+class Strat1 : public AbstractStrategy {
+    Strat1() {}
+    ~Strat1() {}
+};
+
+class Strat2 : public AbstractStrategy {
+    Strat2() {}
+    ~Strat2() {}
+};
+
+class Strat3 : public AbstractStrategy {
+    Strat3() {}
+    ~Strat3() {}
+};
+
+class StratCfg : public AbstractStrategy {
+    StratCfg() {}
+    ~StratCfg() {}
 };
 
 #endif
