@@ -153,6 +153,15 @@ TEST(Operations, At) {
     EXPECT_TRUE(v == b);
 }
 
+TEST(Operations, AAAA) {
+    HashTable left(10);
+    HashTable right;
+    for (int i = 0; i < 1000; ++i) {
+        right.Insert(std::to_string(i), TValue());
+    }
+    left = right;
+}
+
 // TEST(Operations, AtConst) {
 //     const HashTable a;
 //     TValue v;
