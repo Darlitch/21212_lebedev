@@ -14,14 +14,14 @@ public:
     StratFactory& operator=(StratFactory&) = delete;
     // Добавляет в map стратегию
     void RegisterStrat(const std::string& key, Strat (*Func)()) {
-        typename FactoryMap::iterator it = stratFactory.find(key);
+        auto it = stratFactory.find(key);
         if (it == stratFactory.end()) {
             stratFactory[key] = Func;
         }
     }
     // Обращается в map для создания стратегии
     Strat CreateStrat(const std::string& key) {
-        typename FactoryMap::iterator it = stratFactory.find(key);
+        auto it = stratFactory.find(key);
         if (it != stratFactory.end()) {
             return it->second();
         }
