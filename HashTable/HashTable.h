@@ -60,7 +60,7 @@ public:
     friend bool operator!=(const HashTable& a, const HashTable& b);
 
 private:
-    // size_t size = 0;
+    size_t size = 0;
     size_t sizeOfArray = 10000;
     std::list <TValue>* chain;
 };

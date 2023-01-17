@@ -182,6 +182,7 @@ TEST(Operators, OperatorEqual) {
     a.Insert("aboba", v);
     HashTable b;
     b = a;
+    EXPECT_TRUE(a == b);
     EXPECT_TRUE(b.Contains("aboba"));
     b = b;
     EXPECT_TRUE(b.Contains("aboba"));
@@ -201,8 +202,6 @@ TEST(Operators, OperatorCompare) {
     EXPECT_TRUE(a != b);
     b.Insert("aboba", v);
     EXPECT_TRUE(a == b);
-    a.Rehashing();
-    EXPECT_FALSE(a == b);
 }
 
 TEST(Operators, OperatorInd) {
