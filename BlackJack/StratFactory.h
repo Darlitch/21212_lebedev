@@ -3,7 +3,7 @@
 
 #include <map>
 
-template <class TypeKey, class Base>
+template <class TypeKey, class Base, class ProductType = Base * (*) ()>
 class StratFactory {
 public:
     StratFactory() {}
@@ -11,7 +11,7 @@ public:
     StratFactory(StratFactory&) = delete;
     StratFactory& operator=(StratFactory&) = delete;
     // Добавляет в map стратегию
-    bool RegisterStrat(const TypeKey& key, Base* (*Func)()) {
+    bool RegisterStrat(const TypeKey& key, ProductType) {
         auto it = stratFactory.find(key);
         if (it == stratFactory.end()) {
             stratFactory[key] = Func;

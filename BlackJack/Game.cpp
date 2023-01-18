@@ -3,6 +3,7 @@
 #include <cstring>
 #include <algorithm>
 
+#include "Strategy.h"
 #include "BlackJack.h"
 
 namespace {
@@ -88,10 +89,10 @@ int main(int argc, char* argv[]) {
     game.DeckCreate(menuDeck); 
     if (strats[0] == "detailed") {
         game.DetailedGame(strats);
-    } else if (strats[0] == "fast") {
-        game.FastGame(strats);
-    } else {
-        game.TournamentGame(strats);
+    // } else if (strats[0] == "fast") {
+    //     game.FastGame(strats);
+    // } else {
+    //     game.TournamentGame(strats);
     }
     return 0;
 }

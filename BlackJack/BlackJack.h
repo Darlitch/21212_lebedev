@@ -5,7 +5,7 @@
 #include <array>
 
 #include "TCard.h"
-#include "StratFactory.h"
+#include "Strategy.h"
 
 class BlackJack {
     public:
@@ -34,8 +34,6 @@ class BlackJack {
     std::array<size_t, 10> queue;
     std::vector<size_t> score;
     std::vector<size_t> hand;
-
-    StratFactory<std::string, AbstractStrategy*> stratFact;
 };
 
 #endif

@@ -5,10 +5,6 @@
 #include "StratFactory.h"
 
 BlackJack::BlackJack(size_t numOfPlayers) {
-    stratFact.RegisterStrat("strat1", Strat1::CreateStrat1);
-    stratFact.RegisterStrat("strat2", Strat2::CreateStrat2);
-    stratFact.RegisterStrat("strat3", Strat3::CreateStrat3);
-    stratFact.RegisterStrat("stratCfg", StratCfg::CreateStratCfg);
     score.reserve(numOfPlayers);
     hand.reserve(numOfPlayers);
 }
