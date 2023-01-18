@@ -45,7 +45,6 @@ namespace {
     }
 
     void MenuDetails(int argc, char* argv[], std::vector<std::string>& strats) {
-
         for (int i = 1; i < argc; ++i) {
             std::string currArgv(argv[i]);
             if (currArgv.find("--mode=") != std::string::npos) {
@@ -85,14 +84,14 @@ int main(int argc, char* argv[]) {
     //     std::cout << strats[i] << std::endl;
     // }
     // std::cout << menuDeck << std::endl << numOfPlayers;
-    BlackJack game = BlackJack(numOfPlayers);  
+    BlackJack game(numOfPlayers);  
     game.DeckCreate(menuDeck); 
     if (strats[0] == "detailed") {
         game.DetailedGame(strats);
     } else if (strats[0] == "fast") {
-        game.FastGame();
+        game.FastGame(strats);
     } else {
-        game.TournamentGame();
+        game.TournamentGame(strats);
     }
     return 0;
 }

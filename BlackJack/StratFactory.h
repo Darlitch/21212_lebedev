@@ -3,33 +3,39 @@
 
 #include <map>
 
-#include "Strategy.h"
-
-template <class Strat>
+template <class TypeKey, class Base>
 class StratFactory {
 public:
     StratFactory() {}
-    ~StratFactory();
+    ~StratFactory() {}
     StratFactory(StratFactory&) = delete;
     StratFactory& operator=(StratFactory&) = delete;
     // Добавляет в map стратегию
-    void RegisterStrat(const std::string& key, Strat (*Func)()) {
+    bool RegisterStrat(const TypeKey& key, Base* (*Func)()) {
         auto it = stratFactory.find(key);
         if (it == stratFactory.end()) {
             stratFactory[key] = Func;
+            return true;
         }
+        return false;
     }
     // Обращается в map для создания стратегии
-    Strat CreateStrat(const std::string& key) {
+    Base* CreateStrat(const TypeKey& key) {
         auto it = stratFactory.find(key);
         if (it != stratFactory.end()) {
             return it->second();
         }
         return 0;
     }
+    static StratFactory* GetInstance() {
+        if (stratFactory == nullptr) {
+            stratFactory = new FactoryMap;
+        }
+        return stratFactory;
+    }
 private:
-    typedef std::map <std::string, Strat(*Func)()> FactoryMap;
-    FactoryMap stratFactory;
+    typedef std::map <TypeKey, Base*(*)()> FactoryMap;
+    static FactoryMap* stratFactory;
 };
 
 #endif

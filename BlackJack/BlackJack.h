@@ -5,20 +5,22 @@
 #include <array>
 
 #include "TCard.h"
-// #include "StratFactory.h"
+#include "StratFactory.h"
 
 class BlackJack {
     public:
     BlackJack() {}
     BlackJack(size_t numOfPlayers);
+    BlackJack(BlackJack&) = delete;
     ~BlackJack();
     BlackJack& operator=(BlackJack&) = delete;
 
     void DetailedGame(std::vector<std::string> strats);
-    void FastGame();
-    void TournamentGame();
+    // void FastGame(std::vector<std::string> strats);
+    // void TournamentGame(std::vector<std::string> strats);
 
     void DeckCreate(size_t menuDeck);
+    size_t TakeCard();
     // возвращает количество очков в руке Стратегии
     size_t GetHand(size_t num);
     // возвращает счет Стратегии в турнире
@@ -29,15 +31,11 @@ class BlackJack {
 
     private:
     std::array<size_t, 10> deck;
+    std::array<size_t, 10> queue;
     std::vector<size_t> score;
     std::vector<size_t> hand;
 
-    StratFactory<AbstractStrategy*> stratFact;
-    // TCard card;
-    // for (size_t i = 0; i < 10; ++i) {
-
-    // }
-
+    StratFactory<std::string, AbstractStrategy*> stratFact;
 };
 
 #endif
