@@ -51,7 +51,6 @@ HashTable& HashTable::Rehashing() {
             b.Insert(i.name, i);
         }
     }
-    b.sizeOfArray = sizeOfArray*2;
     b.Swap(*this);
     return *this;
 }
