@@ -1,7 +1,7 @@
 FLAGS := -Werror -Wextra -Wall
 
 all: Game.o BlackJack.o
-	g++ Game.o BlackJack.o -o BlackJack
+	g++ -g Game.o BlackJack.o -o BlackJack
 
 Game.o: Game.cpp
 	g++ $(FLAGS) -c Game.cpp

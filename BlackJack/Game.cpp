@@ -81,10 +81,8 @@ int main(int argc, char* argv[]) {
     }
     numOfPlayers = strats.size()-2;
     size_t menuDeck = MenuDeck();
-    // for (size_t i = 0; i < strats.size(); ++i) {
-    //     std::cout << strats[i] << std::endl;
-    // }
-    // std::cout << menuDeck << std::endl << numOfPlayers;
+    // Добавить проверки на большие буквы начальние и т.д.
+
     BlackJack game(numOfPlayers);  
     game.DeckCreate(menuDeck); 
     if (strats[0] == "detailed") {

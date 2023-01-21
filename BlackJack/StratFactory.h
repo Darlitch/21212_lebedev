@@ -3,7 +3,7 @@
 
 #include <map>
 
-template <class TypeKey, class Base, class ProductType = Base * (*) ()>
+template <class TypeKey, class Base, class ProductType = Base *(*)()>
 class StratFactory {
 public:
     StratFactory() {}
@@ -11,7 +11,7 @@ public:
     StratFactory(StratFactory&) = delete;
     StratFactory& operator=(StratFactory&) = delete;
     // Добавляет в map стратегию
-    bool RegisterStrat(const TypeKey& key, ProductType) {
+    bool RegisterStrat(const TypeKey& key, ProductType Func) {
         auto it = stratFactory.find(key);
         if (it == stratFactory.end()) {
             stratFactory[key] = Func;
@@ -28,14 +28,14 @@ public:
         return 0;
     }
     static StratFactory* GetInstance() {
-        if (stratFactory == nullptr) {
-            stratFactory = new FactoryMap;
-        }
-        return stratFactory;
+        // if (&factory == nullptr) {
+            static StratFactory factory;
+        // }
+        return &factory;
     }
 private:
     typedef std::map <TypeKey, Base*(*)()> FactoryMap;
-    static FactoryMap* stratFactory;
+    FactoryMap stratFactory;
 };
 
 #endif

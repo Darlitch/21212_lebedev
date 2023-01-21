@@ -21,16 +21,19 @@ public:
     void Playing() {
         std::cout << "Strat1" << std::endl;
     }
-    static AbstractStrategy* CreateStrat1() {
+};
+
+namespace {
+    AbstractStrategy* CreateStrat1() {
         return new Strat1;
     }
-    static const bool Reg() {
-        return StratFactory<std::string, Strat1*(*)()>::GetInstance()->
-            RegisterStrat("-strat1", Strat1::CreateStrat1);// вызов фабрики ->регистрация ;
+    bool Reg() {
+        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
+            RegisterStrat("-strat1", CreateStrat1);// вызов фабрики ->регистрация ;
 
     }
-    static const bool strat1 = Strat1::Reg();
-};
+    const bool strat1 = Reg();
+}
 
 class Strat2 : public AbstractStrategy {
 public:
@@ -46,12 +49,12 @@ namespace {
     AbstractStrategy* CreateStrat2() {
         return new Strat2;
     }
-    bool Reg() {
-        return StratFactory<std::string, AbstractStrategy*(*)()>::GetInstance()->
+    bool Reg2() {
+        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
             RegisterStrat("-strat2", CreateStrat2);// вызов фабрики ->регистрация ;
 
     }
-    const bool strat2 = Reg();
+    const bool strat2 = Reg2();
 }
 
 class Strat3 : public AbstractStrategy {
@@ -61,16 +64,19 @@ public:
     void Playing() {
         std::cout << "Strat3" << std::endl;
     }
+};
+
+namespace {
     static AbstractStrategy* CreateStrat3() {
         return new Strat3;
     }
-    static bool Reg() {
-        return StratFactory<std::string, Strat3*(*)()>::GetInstance()->
-            RegisterStrat("-strat3", Strat3::CreateStrat3);// вызов фабрики ->регистрация ;
+    static bool Reg3() {
+        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
+            RegisterStrat("-strat3", CreateStrat3);// вызов фабрики ->регистрация ;
 
     }
-    static const bool strat3 = Strat3::Reg();
-};
+    static const bool strat3 = Reg3();
+}
 
 class StratCfg : public AbstractStrategy {
 public:
@@ -79,15 +85,18 @@ public:
     void Playing() {
         std::cout << "StratCfg" << std::endl;
     }
-    static AbstractStrategy* CreateStratCfg() {
+};
+
+namespace {
+    AbstractStrategy* CreateStratCfg() {
         return new StratCfg;
     }
-    static bool Reg() {
-        return StratFactory<std::string, StratCfg*(*)()>::GetInstance()->
-            RegisterStrat("-stratcfg", StratCfg::CreateStratCfg);// вызов фабрики ->регистрация ;
+    bool RegCfg() {
+        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
+            RegisterStrat("-stratcfg", CreateStratCfg);// вызов фабрики ->регистрация ;
 
     }
-    static const bool stratCfg = StratCfg::Reg();
-};
+    const bool stratCfg = RegCfg();
+}
 
 #endif
