@@ -86,9 +86,9 @@ int main(int argc, char* argv[]) {
     BlackJack game(numOfPlayers);  
     game.DeckCreate(menuDeck); 
     if (strats[0] == "detailed") {
-        game.DetailedGame(strats);
-    // } else if (strats[0] == "fast") {
-    //     game.FastGame(strats);
+        game.DetailedGame(strats, 2, 3);
+    } else if (strats[0] == "fast") {
+        game.FastGame(strats, 2, 3);
     // } else {
     //     game.TournamentGame(strats);
     }

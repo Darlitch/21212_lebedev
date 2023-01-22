@@ -15,12 +15,18 @@ class BlackJack {
     ~BlackJack();
     BlackJack& operator=(BlackJack&) = delete;
 
-    void DetailedGame(std::vector<std::string> strats);
-    // void FastGame(std::vector<std::string> strats);
+    void DetailedGame(std::vector<std::string>& strats, size_t player1, size_t player2);
+    void FastGame(std::vector<std::string> strats, size_t player1, size_t player2);
     // void TournamentGame(std::vector<std::string> strats);
 
     void DeckCreate(size_t menuDeck);
-    size_t TakeCard();
+    bool TakeCardDetailed(std::vector<std::string>& strats, size_t player);
+    bool StepDetailed(std::vector<std::string>& strats, size_t player, bool step);
+
+    bool TakeCardFast(size_t player);
+    bool StepFast(size_t player, bool step);
+
+    void PrintWinFastDetailed(std::vector<std::string>& strats, size_t player1, size_t player2);
     // возвращает количество очков в руке Стратегии
     size_t GetHand(size_t num);
     // возвращает счет Стратегии в турнире

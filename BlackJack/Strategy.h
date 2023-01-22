@@ -9,17 +9,21 @@
 class AbstractStrategy {
 public:
     AbstractStrategy() {}
-    ~AbstractStrategy() {}
-    virtual void Playing() {}
+    virtual ~AbstractStrategy() {}
+    virtual bool Playing(size_t lastScore);
 private:
 };
 
 class Strat1 : public AbstractStrategy {
 public:
     Strat1() {}
-    ~Strat1() {}
-    void Playing() {
-        std::cout << "Strat1" << std::endl;
+    ~Strat1() = default;
+    bool Playing(size_t lastScore) {
+        if (lastScore < 16) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 };
 
@@ -38,10 +42,14 @@ namespace {
 class Strat2 : public AbstractStrategy {
 public:
     Strat2() {}
-    ~Strat2() {}
+    ~Strat2() = default;
 
-    void Playing() {
-        std::cout << "Strat2" << std::endl;
+    bool Playing(size_t lastScore) {
+        if (lastScore < 16) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 };
 
@@ -60,9 +68,13 @@ namespace {
 class Strat3 : public AbstractStrategy {
 public:
     Strat3() {}
-    ~Strat3() {}
-    void Playing() {
-        std::cout << "Strat3" << std::endl;
+    ~Strat3() = default;
+    bool Playing(size_t lastScore) {
+        if (lastScore < 16) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 };
 
@@ -81,9 +93,13 @@ namespace {
 class StratCfg : public AbstractStrategy {
 public:
     StratCfg() {}
-    ~StratCfg() {}
-    void Playing() {
-        std::cout << "StratCfg" << std::endl;
+    ~StratCfg() = default;
+    bool Playing(size_t lastScore) {
+        if (lastScore < 16) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 };
 
