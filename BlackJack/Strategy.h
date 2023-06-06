@@ -10,7 +10,7 @@ class AbstractStrategy {
 public:
     AbstractStrategy() {}
     virtual ~AbstractStrategy() {}
-    virtual bool Playing(size_t lastScore);
+    virtual bool Playing(size_t lastScore, size_t scoreEnemy) = 0;
 private:
 };
 
@@ -18,101 +18,28 @@ class Strat1 : public AbstractStrategy {
 public:
     Strat1() {}
     ~Strat1() = default;
-    bool Playing(size_t lastScore) {
-        if (lastScore < 16) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+    bool Playing(size_t lastScore, size_t scoreEnemy);
 };
-
-namespace {
-    AbstractStrategy* CreateStrat1() {
-        return new Strat1;
-    }
-    bool Reg() {
-        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
-            RegisterStrat("-strat1", CreateStrat1);// вызов фабрики ->регистрация ;
-
-    }
-    const bool strat1 = Reg();
-}
 
 class Strat2 : public AbstractStrategy {
 public:
     Strat2() {}
     ~Strat2() = default;
-
-    bool Playing(size_t lastScore) {
-        if (lastScore < 16) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+    bool Playing(size_t lastScore, size_t scoreEnemy);
 };
 
-namespace {
-    AbstractStrategy* CreateStrat2() {
-        return new Strat2;
-    }
-    bool Reg2() {
-        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
-            RegisterStrat("-strat2", CreateStrat2);// вызов фабрики ->регистрация ;
+// class Strat3 : public AbstractStrategy {
+// public:
+//     Strat3() {}
+//     ~Strat3() = default;
+//     bool Playing(size_t lastScore, size_t scoreEnemy);
+// };
 
-    }
-    const bool strat2 = Reg2();
-}
-
-class Strat3 : public AbstractStrategy {
-public:
-    Strat3() {}
-    ~Strat3() = default;
-    bool Playing(size_t lastScore) {
-        if (lastScore < 16) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-};
-
-namespace {
-    static AbstractStrategy* CreateStrat3() {
-        return new Strat3;
-    }
-    static bool Reg3() {
-        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
-            RegisterStrat("-strat3", CreateStrat3);// вызов фабрики ->регистрация ;
-
-    }
-    static const bool strat3 = Reg3();
-}
-
-class StratCfg : public AbstractStrategy {
-public:
-    StratCfg() {}
-    ~StratCfg() = default;
-    bool Playing(size_t lastScore) {
-        if (lastScore < 16) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-};
-
-namespace {
-    AbstractStrategy* CreateStratCfg() {
-        return new StratCfg;
-    }
-    bool RegCfg() {
-        return StratFactory<std::string, AbstractStrategy>::GetInstance()->
-            RegisterStrat("-stratcfg", CreateStratCfg);// вызов фабрики ->регистрация ;
-
-    }
-    const bool stratCfg = RegCfg();
-}
+// class StratCfg : public AbstractStrategy {
+// public:
+//     StratCfg() {}
+//     ~StratCfg() = default;
+//     bool Playing(size_t lastScore, size_t scoreEnemy);
+// };
 
 #endif

@@ -14,46 +14,46 @@ BlackJack::~BlackJack() {
 }
 
 void BlackJack::DetailedGame(std::vector<std::string>& strats, size_t player1, size_t player2) {
-    // bool step = 0;
+    bool step = 0;
     AbstractStrategy* strat1 = StratFactory<std::string, AbstractStrategy>::GetInstance()->CreateStrat(strats[player1]);
     AbstractStrategy* strat2 = StratFactory<std::string, AbstractStrategy>::GetInstance()->CreateStrat(strats[player2]);
     TakeCardDetailed(strats, player1);
     TakeCardDetailed(strats, player1);
     TakeCardDetailed(strats, player2);
     TakeCardDetailed(strats, player2);
-    // while (hand[player1-2] < 21 && hand[player2-2] < 21) {
-    //     step = strat1->Playing(hand[player1-2]);
-    //     if (StepDetailed(strats, player1, step)) {
-    //         break;
-    //     }
-    //     step = strat2->Playing(hand[player2-2]);
-    //     if (StepDetailed(strats, player2, step)) {
-    //         break;
-    //     }
-    // }
+    while (hand[player1-2] < 21 && hand[player2-2] < 21) {
+        step = strat1->Playing(hand[player1-2], 20);
+        if (StepDetailed(strats, player1, step)) {
+            break;
+        }
+        step = strat2->Playing(hand[player2-2], 20);
+        if (StepDetailed(strats, player2, step)) {
+            break;
+        }
+    }
     PrintWinFastDetailed(strats, player1, player2);
     delete strat1;
     delete strat2;
 }
 
 void BlackJack::FastGame(std::vector<std::string> strats, size_t player1, size_t player2) {
-    // bool step = 0;
+    bool step = 0;
     AbstractStrategy* strat1 = StratFactory<std::string, AbstractStrategy>::GetInstance()->CreateStrat(strats[player1]);
     AbstractStrategy* strat2 = StratFactory<std::string, AbstractStrategy>::GetInstance()->CreateStrat(strats[player2]);
     TakeCardFast(player1);
     TakeCardFast(player1);
     TakeCardFast(player2);
     TakeCardFast(player2);
-    // while (hand[player1-2] < 21 && hand[player2-2] < 21) {
-    //     step = strat1->Playing(hand[player1-2]);
-    //     if (StepFast(player1, step)) {
-    //         break;
-    //     }
-    //     step = strat2->Playing(hand[player2-2]);
-    //     if (StepFast(player2, step)) {
-    //         break;
-    //     }
-    // }
+    while (hand[player1-2] < 21 && hand[player2-2] < 21) {
+        step = strat1->Playing(hand[player1-2], 20);
+        if (StepFast(player1, step)) {
+            break;
+        }
+        step = strat2->Playing(hand[player2-2], 20);
+        if (StepFast(player2, step)) {
+            break;
+        }
+    }
     PrintWinFastDetailed(strats, player1, player2);
     delete strat1;
     delete strat2;
